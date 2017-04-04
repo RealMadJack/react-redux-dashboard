@@ -3,3 +3,13 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+table tbody tr td input {
+  height: 20px!important;
+}
+table tbody tr td:last-child {
+  max-width: 130px;
+}
+
+table {
+  table-layout: fixed;
+}
