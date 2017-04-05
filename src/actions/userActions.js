@@ -6,6 +6,7 @@ export const FETCH_USERS_REJECTED = 'FETCH_USERS_REJECTED'
 
 export const ADD_USER = 'ADD_USER'
 export const DELETE_USER = 'DELETE_USER'
+export const EDIT_USER = 'EDIT_USER'
 
 export function fetchUsers() {
   return function (dispatch) {
@@ -13,7 +14,6 @@ export function fetchUsers() {
 
     axios.get('http://rest.learncode.academy/api/abon3153/dashboard1')
       .then((res) => {
-        console.log(res)
         dispatch({type: FETCH_USERS_FULFILLED, payload: res.data})
       })
       .catch((err) => {
@@ -28,4 +28,8 @@ export function addUser(obj) {
 
 export function deleteUser(id) {
   return {type: DELETE_USER, payload: id}
+}
+
+export function editUser(id) {
+  return {type: EDIT_USER, payload: id}
 }

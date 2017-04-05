@@ -11,6 +11,7 @@ export const FETCH_USERS_REJECTED = 'FETCH_USERS_REJECTED'
 
 export const ADD_USER = 'ADD_USER'
 export const DELETE_USER = 'DELETE_USER'
+export const EDIT_USER = 'EDIT_USER'
 
 export default function reducer(state=InitialState, action) {
   switch (action.type) {
@@ -45,6 +46,11 @@ export default function reducer(state=InitialState, action) {
       return {
         ...state,
         users: state.users.filter(user => user.id !== action.payload)
+      }
+    }
+    case EDIT_USER: {
+      return {
+        ...state
       }
     }
     default: {

@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import StyledButton from '../../components/Button/StyledButton'
 
 // Actions
-import { fetchUsers, addUser, deleteUser } from '../../actions/userActions'
+import { fetchUsers, addUser, deleteUser, editUser } from '../../actions/userActions'
 
 class Table extends Component {
   constructor() {
@@ -47,10 +47,21 @@ class Table extends Component {
   }
 
   cleanInput() {
+    this.setState({
+      title: '',
+      name: '',
+      surname: '',
+      company: '',
+      country: '',
+    })
   }
 
   deleteUser(id) {
     this.props.dispatch(deleteUser(id))
+  }
+
+  editUser(id) {
+    this.props.dispatch(editUser(id))
   }
 
   render() {
@@ -68,8 +79,20 @@ class Table extends Component {
           <td>{key.country}</td>
           <td>{key.registered}</td>
           <td className="center-align">
-            <StyledButton><i className="tiny material-icons">mode_edit</i></StyledButton>
-            <StyledButton onClick={this.deleteUser.bind(this, key.id)}><i className="tiny material-icons">delete</i></StyledButton>
+            <StyledButton
+                title="Edit"
+                onClick={this.editUser.bind(this, key.id)}>
+              <i className="tiny material-icons">
+                mode_edit
+              </i>
+            </StyledButton>
+            <StyledButton
+                title="Delete"
+                onClick={this.deleteUser.bind(this, key.id)}>
+              <i className="tiny material-icons">
+                delete
+              </i>
+            </StyledButton>
           </td>
         </tr>
       )
@@ -88,37 +111,59 @@ class Table extends Component {
               <input
                 type="text"
                 name="title"
+                value={this.state.title}
+                placeholder="Title"
                 onChange={this.handleChange} />
             </td>
             <td>
               <input
                 type="text"
                 name="name"
+                value={this.state.name}
+                placeholder="Name"
                 onChange={this.handleChange} />
             </td>
             <td>
               <input
                 type="text"
                 name="surname"
+                value={this.state.surname}
+                placeholder="Surname"
                 onChange={this.handleChange} />
             </td>
             <td>
               <input
                 type="text"
                 name="company"
+                value={this.state.company}
+                placeholder="Company"
                 onChange={this.handleChange} />
             </td>
             <td>
               <input
                 type="text"
                 name="country"
+                value={this.state.country}
+                placeholder="Country"
                 onChange={this.handleChange} />
             </td>
             <td>
             </td>
             <td className="center-align">
-              <StyledButton onClick={this.addUser.bind(this)}><i className="tiny material-icons">done</i></StyledButton>
-              <StyledButton onClick={this.cleanInput.bind(this)}><i className="tiny material-icons">settings_backup_restore</i></StyledButton>
+              <StyledButton
+                  title="Add"
+                  onClick={this.addUser.bind(this)}>
+                <i className="tiny material-icons">
+                  done
+                </i>
+              </StyledButton>
+              <StyledButton
+                  title="Clean"
+                  onClick={this.cleanInput.bind(this)}>
+                <i className="tiny material-icons">
+                  settings_backup_restore
+                </i>
+              </StyledButton>
             </td>
           </tr>
           {TD}
