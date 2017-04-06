@@ -2,6 +2,7 @@ export const InitialState = {
   users: [],
   fetching: false,
   fetched: false,
+  editing: false,
   error: null
 }
 
@@ -12,6 +13,7 @@ export const FETCH_USERS_REJECTED = 'FETCH_USERS_REJECTED'
 export const ADD_USER = 'ADD_USER'
 export const DELETE_USER = 'DELETE_USER'
 export const EDIT_USER = 'EDIT_USER'
+export const SAVE_USER = 'SAVE_USER'
 
 export default function reducer(state=InitialState, action) {
   switch (action.type) {
@@ -50,7 +52,14 @@ export default function reducer(state=InitialState, action) {
     }
     case EDIT_USER: {
       return {
-        ...state
+        ...state,
+        editing: true,
+      }
+    }
+    case SAVE_USER: {
+      return {
+        ...state,
+        editing: false,
       }
     }
     default: {

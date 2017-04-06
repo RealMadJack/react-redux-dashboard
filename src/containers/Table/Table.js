@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 // Components
 import StyledButton from '../../components/Button/StyledButton'
+import THEAD from '../../components/THEAD/index'
 
 // Actions
 import { fetchUsers, addUser, deleteUser, editUser } from '../../actions/userActions'
@@ -61,15 +62,79 @@ class Table extends Component {
   }
 
   editUser(id) {
+    console.log(id)
+    console.log(this.props.users)
     this.props.dispatch(editUser(id))
   }
 
   render() {
-    const { users } = this.props
+    const { users, fetching, fetched, editing } = this.props
 
-    const TH = ['Title', 'Name', 'Surname', 'Company', 'Country', 'Birth Date'].map((key, i) => <th key={i}>{key}</th>)
+    const theadData = ['Title', 'Name', 'Surname', 'Company', 'Country', 'Birth Date']
 
-    const TD = users.map((key, i) => {
+    const USER_INPUT =
+      <tr>
+        <td>
+          <input
+            type="text"
+            name="title"
+            value={this.state.title}
+            placeholder="Title"
+            onChange={this.handleChange} />
+        </td>
+        <td>
+          <input
+            type="text"
+            name="name"
+            value={this.state.name}
+            placeholder="Name"
+            onChange={this.handleChange} />
+        </td>
+        <td>
+          <input
+            type="text"
+            name="surname"
+            value={this.state.surname}
+            placeholder="Surname"
+            onChange={this.handleChange} />
+        </td>
+        <td>
+          <input
+            type="text"
+            name="company"
+            value={this.state.company}
+            placeholder="Company"
+            onChange={this.handleChange} />
+        </td>
+        <td>
+          <input
+            type="text"
+            name="country"
+            value={this.state.country}
+            placeholder="Country"
+            onChange={this.handleChange} />
+        </td>
+        <td>
+        </td>
+        <td className="center-align">
+          <StyledButton
+              title="Add"
+              onClick={this.addUser.bind(this)}>
+            <i className="tiny material-icons">
+              done
+            </i>
+          </StyledButton>
+          <StyledButton
+              title="Clean"
+              onClick={this.cleanInput.bind(this)}>
+            <i className="tiny material-icons">
+              settings_backup_restore
+            </i>
+          </StyledButton>
+        </td>
+      </tr>
+
+    const RENDERED_USERS = users.map((key, i) => {
       return(
         <tr key={key.index}>
           <td>{key.title}</td>
@@ -100,73 +165,10 @@ class Table extends Component {
 
     return(
       <table className="responsive-table highlight">
-        <thead>
-          <tr>
-            {TH}
-          </tr>
-        </thead>
+        <THEAD title={theadData} />
         <tbody>
-          <tr>
-            <td>
-              <input
-                type="text"
-                name="title"
-                value={this.state.title}
-                placeholder="Title"
-                onChange={this.handleChange} />
-            </td>
-            <td>
-              <input
-                type="text"
-                name="name"
-                value={this.state.name}
-                placeholder="Name"
-                onChange={this.handleChange} />
-            </td>
-            <td>
-              <input
-                type="text"
-                name="surname"
-                value={this.state.surname}
-                placeholder="Surname"
-                onChange={this.handleChange} />
-            </td>
-            <td>
-              <input
-                type="text"
-                name="company"
-                value={this.state.company}
-                placeholder="Company"
-                onChange={this.handleChange} />
-            </td>
-            <td>
-              <input
-                type="text"
-                name="country"
-                value={this.state.country}
-                placeholder="Country"
-                onChange={this.handleChange} />
-            </td>
-            <td>
-            </td>
-            <td className="center-align">
-              <StyledButton
-                  title="Add"
-                  onClick={this.addUser.bind(this)}>
-                <i className="tiny material-icons">
-                  done
-                </i>
-              </StyledButton>
-              <StyledButton
-                  title="Clean"
-                  onClick={this.cleanInput.bind(this)}>
-                <i className="tiny material-icons">
-                  settings_backup_restore
-                </i>
-              </StyledButton>
-            </td>
-          </tr>
-          {TD}
+          {USER_INPUT}
+          {RENDERED_USERS}
         </tbody>
       </table>
     );
@@ -176,6 +178,9 @@ class Table extends Component {
 function mapStoreToProps(store) {
   return {
     users: store.usersState.users,
+    fetching: store.usersState.fetching,
+    fetched: store.usersState.fetched,
+    editing: store.usersState.editing,
   }
 }
 
