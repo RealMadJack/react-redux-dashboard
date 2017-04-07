@@ -5,9 +5,10 @@ import { connect } from 'react-redux'
 // Components
 import StyledButton from '../../components/Button/StyledButton'
 import THEAD from '../../components/THEAD/index'
+import TROW from '../../components/TROW/index'
 
 // Actions
-import { fetchUsers, addUser, deleteUser, editUser } from '../../actions/userActions'
+import { fetchUsers, addUser, deleteUser, editUser, saveUser } from '../../actions/userActions'
 
 class Table extends Component {
   constructor() {
@@ -62,9 +63,11 @@ class Table extends Component {
   }
 
   editUser(id) {
-    console.log(id)
-    console.log(this.props.users)
     this.props.dispatch(editUser(id))
+  }
+
+  saveUser(id) {
+    this.props.dispatch(saveUser(id))
   }
 
   render() {
@@ -72,7 +75,7 @@ class Table extends Component {
 
     const theadData = ['Title', 'Name', 'Surname', 'Company', 'Country', 'Birth Date']
 
-    const USER_INPUT =
+    const TINPUT_LIST =
       <tr>
         <td>
           <input
@@ -134,32 +137,15 @@ class Table extends Component {
         </td>
       </tr>
 
-    const RENDERED_USERS = users.map((key, i) => {
+    const TROW_LIST = users.map((key, i) => {
       return(
-        <tr key={key.index}>
-          <td>{key.title}</td>
-          <td>{key.name}</td>
-          <td>{key.surname}</td>
-          <td>{key.company}</td>
-          <td>{key.country}</td>
-          <td>{key.registered}</td>
-          <td className="center-align">
-            <StyledButton
-                title="Edit"
-                onClick={this.editUser.bind(this, key.id)}>
-              <i className="tiny material-icons">
-                mode_edit
-              </i>
-            </StyledButton>
-            <StyledButton
-                title="Delete"
-                onClick={this.deleteUser.bind(this, key.id)}>
-              <i className="tiny material-icons">
-                delete
-              </i>
-            </StyledButton>
-          </td>
-        </tr>
+        <TROW
+          key={key.id}
+          del={this.deleteUser.bind(this, key.id)}
+          edit={this.editUser.bind(this, key.id)}
+          save={this.saveUser.bind(this, key.id)}
+          editing={editing}
+          {...key} />
       )
     })
 
@@ -167,8 +153,8 @@ class Table extends Component {
       <table className="responsive-table highlight">
         <THEAD title={theadData} />
         <tbody>
-          {USER_INPUT}
-          {RENDERED_USERS}
+          {TINPUT_LIST}
+          {TROW_LIST}
         </tbody>
       </table>
     );

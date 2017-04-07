@@ -53,7 +53,7 @@ export default function reducer(state=InitialState, action) {
     case EDIT_USER: {
       return {
         ...state,
-        editing: true,
+        editing: true
       }
     }
     case SAVE_USER: {
