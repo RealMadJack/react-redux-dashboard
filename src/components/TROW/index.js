@@ -4,36 +4,82 @@ import StyledButton from '../../components/Button/StyledButton'
 
 class TROW extends Component {
   constructor(props) {
-    super();
+    super(props);
+
+    this.state = {
+      title: props.title,
+      name: props.name,
+      surname: props.surname,
+      company: props.company,
+      country: props.country,
+      registered: props.registered,
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(e) {
+    const target = e.target;
+    const name = target.name;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+
+    this.setState({
+      [name]: value,
+    })
   }
 
   render() {
-    const { del, edit, editing, save, id, index, title, name, surname, company, country, registered } = this.props;
+    const { del, edit, editing, save } = this.props;
     console.log(this.props)
 
     if ( editing ) {
       return(
         <tr>
-          <td><input
-            type="text"
-            value={title} /></td>
-          <td><input
-            type="text"
-            value={name} /></td>
-          <td><input
-            type="text"
-            value={surname} /></td>
-          <td><input
-            type="text"
-            value={company} /></td>
-          <td><input
-            type="text"
-            value={country} /></td>
-          <td><input
-            type="text"
-            value={registered} /></td>
+          <td>
+            <input
+              type="text"
+              name="title"
+              value={this.state.title}
+              onChange={this.handleChange} />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="name"
+              value={this.state.name}
+              onChange={this.handleChange} />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="surname"
+              value={this.state.surname}
+              onChange={this.handleChange} />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="company"
+              value={this.state.company}
+              onChange={this.handleChange} />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="country"
+              value={this.state.country}
+              onChange={this.handleChange} />
+          </td>
+          <td>
+            <input
+              type="text"
+              name="registered"
+              value={this.state.registered}
+              onChange={this.handleChange} />
+          </td>
           <td className="center-align">
             <StyledButton
+                className="active"
                 title="Save"
                 onClick={save}>
               <i className="tiny material-icons">
@@ -53,12 +99,12 @@ class TROW extends Component {
     } else if ( !editing ) {
       return(
         <tr>
-          <td>{title}</td>
-          <td>{name}</td>
-          <td>{surname}</td>
-          <td>{company}</td>
-          <td>{country}</td>
-          <td>{registered}</td>
+          <td>{this.state.title}</td>
+          <td>{this.state.name}</td>
+          <td>{this.state.surname}</td>
+          <td>{this.state.company}</td>
+          <td>{this.state.country}</td>
+          <td>{this.state.registered}</td>
           <td className="center-align">
             <StyledButton
                 title="Edit"

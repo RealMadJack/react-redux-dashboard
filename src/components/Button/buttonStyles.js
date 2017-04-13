@@ -18,11 +18,10 @@ const buttonStyles = css`
   color: #fff;
   border: 1px solid #009BDD;
   transition: all .1s ease-in-out;
-
-  &:active, &:focus {
+  &:hover {
     border-color: #222222;
     background: #222222;
-    color: #fff;
+    color: #ffffff;
   }
   &:not(:first-child) {
     margin-left: 6px;

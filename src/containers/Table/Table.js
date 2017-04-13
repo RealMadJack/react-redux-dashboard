@@ -4,6 +4,9 @@ import { connect } from 'react-redux'
 
 // Components
 import StyledButton from '../../components/Button/StyledButton'
+import LoadingIndicator from '../../components/LoadingIndicator/index'
+import ErrorMessage from '../../components/ErrorMessage/index'
+
 import THEAD from '../../components/THEAD/index'
 import TROW from '../../components/TROW/index'
 
@@ -75,7 +78,7 @@ class Table extends Component {
 
     const theadData = ['Title', 'Name', 'Surname', 'Company', 'Country', 'Birth Date']
 
-    const TINPUT_LIST =
+    const TINPUT_ROW =
       <tr>
         <td>
           <input
@@ -143,21 +146,45 @@ class Table extends Component {
           key={key.id}
           del={this.deleteUser.bind(this, key.id)}
           edit={this.editUser.bind(this, key.id)}
-          save={this.saveUser.bind(this, key.id)}
           editing={editing}
+          save={this.saveUser.bind(this, key.id)}
           {...key} />
-      )
+      );
     })
 
-    return(
-      <table className="responsive-table highlight">
-        <THEAD title={theadData} />
-        <tbody>
-          {TINPUT_LIST}
-          {TROW_LIST}
-        </tbody>
-      </table>
-    );
+
+    if (fetching && !fetched) {
+      return(
+        <div>
+          <table className="responsive-table highlight">
+            <THEAD title={theadData} />
+          </table>
+          <LoadingIndicator />
+        </div>
+      );
+    } else if (fetched && !fetching) {
+      return(
+        <div>
+          <table className="responsive-table highlight">
+            <THEAD title={theadData} />
+            <tbody>
+              {TINPUT_ROW}
+              {TROW_LIST}
+            </tbody>
+          </table>
+        </div>
+      );
+    } else if (!fetching && !fetched) {
+      return(
+        <div>
+          <table className="responsive-table highlight">
+            <THEAD title={theadData} />
+          </table>
+          <ErrorMessage>Data is corrupted</ErrorMessage>
+        </div>
+      );
+    }
+
   }
 }
 
