@@ -1,5 +1,6 @@
 export const InitialState = {
   users: [],
+  userID: null,
   fetching: false,
   fetched: false,
   editing: false,
@@ -41,19 +42,20 @@ export default function reducer(state=InitialState, action) {
     case ADD_USER: {
       return {
         ...state,
-        users: [...state.users, action.payload]
+        users: [...state.users, action.payload],
       }
     }
     case DELETE_USER: {
       return {
         ...state,
-        users: state.users.filter(user => user.id !== action.payload)
+        users: state.users.filter(user => user.id !== action.payload),
       }
     }
     case EDIT_USER: {
       return {
         ...state,
-        editing: true
+        editing: true,
+        userID: action.payload,
       }
     }
     case SAVE_USER: {

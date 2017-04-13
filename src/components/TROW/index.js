@@ -7,6 +7,7 @@ class TROW extends Component {
     super(props);
 
     this.state = {
+      id: props.id,
       title: props.title,
       name: props.name,
       surname: props.surname,
@@ -29,8 +30,7 @@ class TROW extends Component {
   }
 
   render() {
-    const { del, edit, editing, save } = this.props;
-    console.log(this.props)
+    const { editing, onDel, onEdit, onSave } = this.props;
 
     if ( editing ) {
       return(
@@ -81,14 +81,14 @@ class TROW extends Component {
             <StyledButton
                 className="active"
                 title="Save"
-                onClick={save}>
+                onClick={onSave.bind(this, this.state)}>
               <i className="tiny material-icons">
                 done_all
               </i>
             </StyledButton>
             <StyledButton
                 title="Delete"
-                onClick={del}>
+                onClick={onDel}>
               <i className="tiny material-icons">
                 delete
               </i>
@@ -108,14 +108,14 @@ class TROW extends Component {
           <td className="center-align">
             <StyledButton
                 title="Edit"
-                onClick={edit}>
+                onClick={onEdit}>
               <i className="tiny material-icons">
                 mode_edit
               </i>
             </StyledButton>
             <StyledButton
                 title="Delete"
-                onClick={del}>
+                onClick={onDel}>
               <i className="tiny material-icons">
                 delete
               </i>

@@ -35,6 +35,6 @@ export function editUser(id) {
   return {type: EDIT_USER, payload: id}
 }
 
-export function saveUser(id) {
-  return {type: SAVE_USER, payload: id}
+export function saveUser(obj) {
+  return {type: SAVE_USER, payload: obj}
 }

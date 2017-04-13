@@ -14,16 +14,17 @@ import TROW from '../../components/TROW/index'
 import { fetchUsers, addUser, deleteUser, editUser, saveUser } from '../../actions/userActions'
 
 class Table extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
+      id: Date.now(),
+      registered: Date.now(),
       title: '',
       name: '',
       surname: '',
       company: '',
       country: '',
-      registered: Date.now(),
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -48,6 +49,11 @@ class Table extends Component {
   }
 
   addUser() {
+    this.setState({
+      id: Date.now(),
+      registered: Date.now(),
+    })
+
     this.props.dispatch(addUser(this.state))
   }
 
@@ -74,11 +80,11 @@ class Table extends Component {
   }
 
   render() {
-    const { users, fetching, fetched, editing } = this.props
+    const { users, fetching, fetched, editing, userID } = this.props
 
     const theadData = ['Title', 'Name', 'Surname', 'Company', 'Country', 'Birth Date']
 
-    const TINPUT_ROW =
+    const TROW_INPUT =
       <tr>
         <td>
           <input
@@ -141,15 +147,27 @@ class Table extends Component {
       </tr>
 
     const TROW_LIST = users.map((key, i) => {
-      return(
-        <TROW
-          key={key.id}
-          del={this.deleteUser.bind(this, key.id)}
-          edit={this.editUser.bind(this, key.id)}
-          editing={editing}
-          save={this.saveUser.bind(this, key.id)}
-          {...key} />
-      );
+      if (userID === key.id) {
+        return(
+          <TROW
+            key={key.id}
+            editing={editing}
+            onDel={this.deleteUser.bind(this, key.id)}
+            onEdit={this.editUser.bind(this, key.id)}
+            onSave={this.saveUser.bind(this)}
+            {...key} />
+        );
+      } else {
+        return(
+          <TROW
+            key={key.id}
+            editing={false}
+            onDel={this.deleteUser.bind(this, key.id)}
+            onEdit={this.editUser.bind(this, key.id)}
+            onSave={this.saveUser.bind(this)}
+            {...key} />
+        );
+      }
     })
 
 
@@ -168,10 +186,16 @@ class Table extends Component {
           <table className="responsive-table highlight">
             <THEAD title={theadData} />
             <tbody>
-              {TINPUT_ROW}
+              {TROW_INPUT}
               {TROW_LIST}
             </tbody>
           </table>
+          <StyledButton>
+            5
+          </StyledButton>
+          <StyledButton>
+            8
+          </StyledButton>
         </div>
       );
     } else if (!fetching && !fetched) {
@@ -190,10 +214,11 @@ class Table extends Component {
 
 function mapStoreToProps(store) {
   return {
-    users: store.usersState.users,
+    editing: store.usersState.editing,
     fetching: store.usersState.fetching,
     fetched: store.usersState.fetched,
-    editing: store.usersState.editing,
+    userID: store.usersState.userID,
+    users: store.usersState.users,
   }
 }
 
